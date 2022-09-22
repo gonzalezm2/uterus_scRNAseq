@@ -1,0 +1,34 @@
+---
+title: "uterus_unfractionated_analysis"
+last updated: 092222
+output: html_notebook
+---
+
+
+
+```{r}
+library(Seurat)
+uterus_unfract <- readRDS("/Volumes/Mobile_Data/uterus_transfer/unfract/merged_unfract_ctrls_soupknownWES_newVento.rds")
+```
+
+```{r}
+DimPlot(uterus_unfract)
+```
+
+```{r}
+head(uterus_unfract@meta.data)
+```
+
+```{r}
+
+```
+
+
+
+
+
+
+
+
+
+
