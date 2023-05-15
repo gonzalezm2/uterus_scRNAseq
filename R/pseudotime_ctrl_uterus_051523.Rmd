@@ -1,0 +1,44 @@
+---
+title: "pseudotime_ctrl_uterus_051523"
+output: html_notebook
+---
+
+```{r}
+library(monocle3)
+library(Seurat)
+library(SeuratWrappers)
+```
+
+
+```{r}
+ctrl_only <- readRDS("/Volumes/Mikey_Flash/Kate_Oneill/HC_3Libraries_harm_Agg.rds")
+```
+
+```{r}
+DimPlot(ctrl_only, label = TRUE)
+```
+
+```{r}
+ctrl_only
+```
+
+```{r}
+cds <- as.cell_data_set(ctrl_only)
+cds <- cluster_cells(cds)
+cds <- learn_graph(cds)
+plot_cells(cds, label_groups_by_cluster = FALSE, label_leaves = FALSE, label_branch_points = FALSE)
+```
+
+```{r}
+cds <- order_cells(cds)
+plot_cells(cds, color_cells_by = "pseudotime", label_cell_groups = FALSE, label_leaves = FALSE, 
+    label_branch_points = FALSE, label_roots = FALSE)
+```
+
+##if you want to add back to Seurat
+```{r}
+# Set the assay back as 'integrated'
+integrated.sub <- as.Seurat(cds, assay = "integrated")
+FeaturePlot(integrated.sub, "monocle3_pseudotime")
+```
+

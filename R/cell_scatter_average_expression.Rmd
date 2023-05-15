@@ -1,0 +1,97 @@
+---
+title: "cell scatter average expression"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r}
+library(Seurat)
+library(dplyr)
+library(readxl)
+utx_only <- readRDS("/Users/migonz/Desktop/Extern_Collab/Uterus/Utx_only_harm_filt_seu_withcall_renameOrig.rds")
+```
+
+```{r}
+head(utx_only)
+```
+```{r}
+utx_only_meta_alt <- read_excel("/Users/migonz/Desktop/Extern_Collab/Uterus/utx_only_meta_alt.xlsx")
+```
+
+```{r}
+head(utx_only_meta_alt)
+```
+
+```{r}
+utx_only@meta.data$pre_post <- utx_only_meta_alt$pre_post
+utx_only@meta.data$pre_post_clust <- utx_only_meta_alt$pre_post_clust
+```
+
+```{r}
+utx_only <- SetIdent(utx_only, value = "pre_post_clust")
+```
+
+
+## read in utx_only subset -- add pre_post designation to meta data
+```{r}
+pre_post0 <- subset(utx_only, idents = c("pre_pregnancy_0", "post_pregnancy_0"))
+pre_post0_av <- AverageExpression(pre_post0, return.seurat = TRUE)
+CellScatter(pre_post0_av, cell1 = "post_pregnancy_0", cell2 = "pre_pregnancy_0")
+```
+
+```{r}
+pre_post1 <- subset(utx_only, idents = c("pre_pregnancy_1", "post_pregnancy_1"))
+pre_post1_av <- AverageExpression(pre_post1, return.seurat = TRUE)
+CellScatter(pre_post1_av, cell1 = "post_pregnancy_1", cell2 = "pre_pregnancy_1")
+```
+
+```{r}
+pre_post2 <- subset(utx_only, idents = c("pre_pregnancy_2", "post_pregnancy_2"))
+pre_post2_av <- AverageExpression(pre_post2, return.seurat = TRUE)
+CellScatter(pre_post2_av, cell1 = "post_pregnancy_2", cell2 = "pre_pregnancy_2")
+```
+
+```{r}
+utx_ctrl_aggr_harmProcSeur_enksigScore <- readRDS("/Volumes/BAHD/Kate_Oneill/Utx_CTRLs_aggr_harmProcSeur_eNKsigScores.rds")
+```
+
+```{r}
+head(utx_ctrl_aggr_harmProcSeur_enksigScore)
+```
+
+```{r}
+utx_ctrl_aggr_meta_alt <- read_excel("../data/utx_ctrl_aggr_meta_alt.xlsx")
+```
+
+```{r}
+utx_ctrl_aggr_harmProcSeur_enksigScore@meta.data$pre_post <- utx_ctrl_aggr_meta_alt$pre_post
+utx_ctrl_aggr_harmProcSeur_enksigScore@meta.data$pre_post_cluster <- utx_ctrl_aggr_meta_alt$pre_post_clust
+```
+
+
+```{r}
+utx_ctrl_aggr_harmProcSeur_enksigScore <- SetIdent(utx_ctrl_aggr_harmProcSeur_enksigScore, value = "pre_post_cluster")
+```
+
+```{r}
+pre_post0 <- subset(utx_ctrl_aggr_harmProcSeur_enksigScore, idents = c("pre_pregnancy_0", "control_0"))
+pre_post0_av <- AverageExpression(pre_post0, return.seurat = TRUE)
+CellScatter(pre_post0_av, cell1 = "control_0", cell2 = "pre_pregnancy_0")
+```
+
+```{r}
+pre_post1 <- subset(utx_ctrl_aggr_harmProcSeur_enksigScore, idents = c("pre_pregnancy_1", "control_1"))
+pre_post1_av <- AverageExpression(pre_post1, return.seurat = TRUE)
+CellScatter(pre_post1_av, cell1 = "control_1", cell2 = "pre_pregnancy_1")
+```
+
+```{r}
+pre_post2 <- subset(utx_ctrl_aggr_harmProcSeur_enksigScore, idents = c("pre_pregnancy_2", "control_2"))
+pre_post2_av <- AverageExpression(pre_post2, return.seurat = TRUE)
+CellScatter(pre_post2_av, cell1 = "control_2", cell2 = "pre_pregnancy_2")
+```
+
+
